@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main() {
+int main() { 
     char a[]="A3BB2CCC2";
     
     int index1=0, index2=0;
