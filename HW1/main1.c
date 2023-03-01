@@ -2,7 +2,7 @@
 
 int main()
 {
-    int i = 0, num = 0, conter = 1;
+    int i = 0, num = 0, ct = 1;
     char a[] = "AABBBCCCCddd";
     char c = ' ';
     
@@ -14,10 +14,10 @@ int main()
             printf("%c", a[i]);
         }
         if(a[i] != a[i+1]){
-            printf("%d", conter);
-            conter = 0;
+            printf("%d", ct);
+            ct = 0;
         }
-        conter++;
+        ct++;
     }
 
     return 0;
