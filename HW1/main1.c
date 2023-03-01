@@ -2,8 +2,8 @@
 
 int main()
 {
-    int i = 0, num = 0, ct = 1;
-    char a[] = "AABBBACCCCddd";
+    int i = 0, num = 0, conter = 1;
+    char a[] = "AABBBCCCCddd";
     char c = ' ';
     
     int len = sizeof(a)/sizeof(a[0])-1;
@@ -14,10 +14,10 @@ int main()
             printf("%c", a[i]);
         }
         if(a[i] != a[i+1]){
-            printf("%d", ct);
-            ct = 0;
+            printf("%d", conter);
+            conter = 0;
         }
-        ct++;
+        conter++;
     }
 
     return 0;
