@@ -28,5 +28,6 @@ int main(){
         printf("[%d] %d: %s %s\n", j, tmp.id, tmp.first_name, tmp.last_name);
         j++;
     }
+    fclose(rfp);
     return 0;
 }
