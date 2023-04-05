@@ -11,7 +11,7 @@ typedef struct lotto_record {
     int lotto_set[5][7];
 }lotto_record_t;
 
-int check_exist(int record_num){
+int return_serialNumber(){
     int serial_number = 0;
     FILE *ptr = fopen("record.bin", "r+");
     if(ptr == NULL)
@@ -24,7 +24,7 @@ int check_exist(int record_num){
     return serial_number;
 }
 
-lotto_record_t buy_lotto(int num, int serial_number){
+lotto_record_t buyLotto(int num, int serial_number){
     srand(time(NULL));
 	int tm, same = 0, lotto[5][7], tmp[6];
 	lotto_record_t lotto_r;
@@ -57,7 +57,6 @@ lotto_record_t buy_lotto(int num, int serial_number){
 				}
 			}
 		}
-		
 		for(int j = 0;j<=4;j++){
 		    for(int k = j+1;k<=5;k++){
 		        if(tmp[j]>tmp[k]){
@@ -67,13 +66,11 @@ lotto_record_t buy_lotto(int num, int serial_number){
 		        }
 		    }
 		}
-		
 		for(int j = 0;j<=6;j++){
 			lotto[i][j] = tmp[j];
 			lotto_r.lotto_set[i][j] = tmp[j];
 		}
 	}
-	
 	for(int i = 0;i<num;i++){
 		fprintf(fp, "=[%d]: ", i+1);
 		for(int j = 0;j<=6;j++){
@@ -86,15 +83,14 @@ lotto_record_t buy_lotto(int num, int serial_number){
 	lotto[num][0] = -1;
 	for(int i = num;i<5;i++)
 		fprintf(fp, "=[%d]: -- -- -- -- -- -- -- =\n", i+1);
-
 	fprintf(fp, "===========CGU@CSIE=========");
+	
 	lotto_r.receipt_id = serial_number;
 	lotto_r.receipt_price = 100*num;
-	
     strcpy(lotto_r.receipt_time, asctime(info));
+    
     fclose(fp);
     return lotto_r;
-	
 }
 
 void printLotto(lotto_record_t lotto, int* code){
@@ -115,31 +111,11 @@ void printLotto(lotto_record_t lotto, int* code){
 }
 
 void redemption(){
-    char c;
-    printf("請輸入中獎號碼(最多三個):");
-    scanf("%c", &c);
-    char a[50];
-    fgets(a, 50, stdin);
-
-    int i = 4;
-    int j = 0, k =  0, tmp = 0;
-    int start_index = 0, end_index = 0;
+    int arr[3], i;
     
-    int len = sizeof(a)/sizeof(char)-1;
-    int arr[3];
-    
-    for (int j=0; j<=len;j++) {
-        if (a[j]>='0' && a[j]<='9') {
-            tmp = (tmp*10) + (a[j]-'0');
-        }
-
-        else if (a[j] == ' ' || a[j] == '\n'){
-            arr[end_index] = tmp;
-            end_index += 1;
-            tmp = 0;
-        }
-        
-    }
+    printf("請輸入三個中獎號碼:");
+    for(i = 0;i<3;i++)
+        scanf("%d", &arr[i]);
     
     printf("輸入中獎號碼為:");
     for(i = 0;i<3;i++){
@@ -164,38 +140,37 @@ void redemption(){
         }
         if(Win == 1){
             if(any == 0){
-                printf("以下為中獎彩券:\n");
+                printf("\n以下為中獎彩券:\n");
                 any = 1;
             }
             printLotto(tmpf, code);
             Win = 0;
-            for(int qw = 0;qw<5;qw++){
+            for(int qw = 0;qw<5;qw++)
                 code[qw] = 0;
-            }
         }
     }
     if(any == 0)
-        printf("\n很遺憾您並未中獎 T_T");
+        printf("\n很遺憾您並未中獎 😭");
     fclose(ptr);
 }
 
-void record(lotto_record_t lotto, int serial_number){
+void record(lotto_record_t lotto){
     FILE *fp = fopen("record.bin", "a+");
     fwrite(&lotto, sizeof(lotto_record_t), 1, fp);
     fclose(fp);
 }
 
 int main(){
-	int num, record_num = 100000, serial_number;
+	int num, serial_number;
 	lotto_record_t lotto_;
-	printf("歡迎光臨長庚樂透彩購買機台\n請問您要購買幾組 : ");
+	printf("歡迎光臨長庚樂透彩購買機台🤑\n請問您要購買幾組 : ");
 	scanf("%d", &num);
 	if(num == 0)
 	    redemption();
 	else{
-	    serial_number = check_exist(record_num);
-	    lotto_ = buy_lotto(num, serial_number+1);
+	    serial_number = return_serialNumber();
+	    lotto_ = buyLotto(num, serial_number+1);
 	    printf("%s", lotto_.receipt_time);
-	    record(lotto_, serial_number);
+	    record(lotto_);
 	}
 }
