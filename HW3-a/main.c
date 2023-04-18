@@ -2,7 +2,7 @@
 #include <time.h>
 int ct = 1;
 int hanoi(int n, char A, char B, char C){
-    FILE* fp = fopen("hanoi.txt", "a+");
+    FILE* fp = fopen("hanoi.txt.zip", "a+");
     struct tm* info;
 	time_t curtime;
 	time(&curtime);
