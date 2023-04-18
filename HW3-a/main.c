@@ -32,6 +32,6 @@ int hanoi(int n, char A, char B, char C){
 
 int main(){
     ct = 1;
-    hanoi(7, 'A', 'B', 'C');
+    hanoi(20, 'A', 'B', 'C');
     return 0;
 }
