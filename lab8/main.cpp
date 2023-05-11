@@ -7,22 +7,35 @@ class Fueltank{
         int m_Gas_grade;
         
     public:
-        Fueltank(int m_FueltankCapacity=3000, int gas = 98){
-            m_FueltankCapacity = m_FueltankCapacity;
+        Fueltank(int FueltankCapacity=3000, int Gas=98) {
+            m_FueltankCapacity = FueltankCapacity;
+            m_Gas_grade = Gas;
+        }
+        
+        int fuel_up(int v, int gas) {
+            if (v > m_FueltankCapacity) {
+                cout << "Error: FueltankCapacity: " << m_FueltankCapacity << " ";
+                cout << "but fuel up: " << v << endl;
+                //cout << "fuel_up: " << v << " Gas_grade: " << m_Gas_grade << endl;
+            }
+            if (gas != m_Gas_grade) {
+                cout << "Error: Gas_grade: " << gas << " ";
+                cout << "Correct Gas_grade: " << m_Gas_grade << endl;
+                return 0;
+            }
+            cout << "fuel_up: " << v << " Gas_grade: " << m_Gas_grade << endl;
             m_Gas_grade = gas;
+            return 1;
         }
-        
-        void fuel_up(int v, int gas){
-            cout<<"fuel_up: "<<v<<" Gas_grade: "<<gas<<endl;
-        }
-        
-        void set_Gas_grade(int Gas_grade){
+        int set_Gas_grade(int Gas_grade) {
             m_Gas_grade = Gas_grade;
-            cout<<"Set Gas_grade = "<<Gas_grade<<endl;
-        }
-        int get_Gas_grade(){
+            cout << "Set Gas_grade = " << m_Gas_grade << endl;
             return m_Gas_grade;
         }
+        int get_Gas_grade() {
+            return m_Gas_grade;
+        }
+
 };
 
 class Car{
@@ -69,16 +82,16 @@ class Car{
             
         }*/
         
-        int get_Gas_grade(){
+        int get_Gas_grade() {
             return m_Fueltank.get_Gas_grade();
         }
-        
-        void set_gas_grade(int gas = 98){
+        int set_Gas_grade(int gas=98) {
             m_Fueltank.set_Gas_grade(gas);
+            return m_Fueltank.get_Gas_grade();
         }
-        
-        void fuel_up(int v, int gas = 98){
+        int fuel_up(int v, int gas=98) {
             m_Fueltank.fuel_up(v, gas);
+            return m_Fueltank.get_Gas_grade();
         }
         
         
@@ -131,7 +144,7 @@ class BENZ_Car : public Car{
 int main(){
    AUDI_Car car2("A1", 2021, 2);
    cout << car2.get_brand() << " Gas grade = "<< car2.get_Gas_grade()<<endl;
-   car2.set_gas_grade(95);
+   car2.set_Gas_grade(95);
    cout<<car2.get_brand()<<" Gas_grade = "<<car2.get_Gas_grade()<<endl;
    
    car2.fuel_up(300, 95);
